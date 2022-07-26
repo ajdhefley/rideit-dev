@@ -1,0 +1,122 @@
+version: '3.7'
+
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=coasterranker
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  service-coaster:
+    build:
+      context: ./rideit-services/services/coaster
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=jdbc:postgresql://host.docker.internal:5432/coasterranker
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+      - 8080:8080
+    container_name: service-coaster
+    depends_on:
+      - db
+  
+  service-comment:
+    build:
+      context: ./rideit-services/services/comment
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=jdbc:postgresql://host.docker.internal:5432/coasterranker
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+    - 8081:8081
+    container_name: service-comment
+    depends_on:
+      - db
+
+  service-review:
+    build:
+      context: ./rideit-services/services/review
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=jdbc:postgresql://host.docker.internal:5432/coasterranker
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+    - 8082:8082
+    container_name: service-review
+    depends_on:
+      - db
+
+  service-user:
+    build:
+      context: ./rideit-services/services/user
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=jdbc:postgresql://host.docker.internal:5432/coasterranker
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    ports:
+    - 8083:8083
+    container_name: service-user
+    depends_on:
+      - db
+
+  api:
+    build:
+      context: ./rideit-api
+      dockerfile: Dockerfile
+    volumes:
+      - './api:/usr/src/app/api'
+      - '/usr/src/app/api/node_modules'
+      - '/usr/src/app/api/dist'
+    ports:
+      - 4040:4040
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=coasterranker
+      - HOST=0.0.0.0
+      - PORT=4040
+      - SERVICE_COASTER_URI=http://host.docker.internal:8080
+      - SERVICE_COMMENT_URI=http://host.docker.internal:8081
+      - SERVICE_REVIEW_URI=http://host.docker.internal:8082
+      - SERVICE_USER_URI=http://host.docker.internal:8083
+      - JWT_EXPIRATION_MINUTES=1440
+      - JWT_SECRET=x
+      - CLIENT_URI=http://host.docker.internal:3000
+      - GOOGLE_OAUTH_REDIRECT_URI=http://host.docker.internal:3000/signin/redirect
+      - GOOGLE_CLIENT_ID=x
+      - GOOGLE_SECRET=x
+    depends_on:
+      - service-coaster
+      - service-comment
+      - service-review
+      - service-user
+
+  client:
+    build:
+      context: ./rideit-client
+      dockerfile: Dockerfile
+    environment:
+      - NEXT_PUBLIC_API_URL=http://host.docker.internal:4040
+    volumes:
+      - './client:/usr/src/app/client'
+      - '/usr/src/app/client/node_modules'
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+
+volumes:
+  db:
+  api:
+  client:
+  services:
