@@ -74,8 +74,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - './api:/usr/src/app/api'
-      - '/usr/src/app/api/node_modules'
-      - '/usr/src/app/api/dist'
     ports:
       - 4040:4040
     environment:
@@ -105,18 +103,13 @@ services:
     build:
       context: ./rideit-client
       dockerfile: Dockerfile
-    environment:
-      - NEXT_PUBLIC_API_URL=http://host.docker.internal:4040
     volumes:
       - './client:/usr/src/app/client'
-      - '/usr/src/app/client/node_modules'
     ports:
       - 3000:3000
     depends_on:
       - api
 
 volumes:
-  db:
   api:
   client:
-  services:
