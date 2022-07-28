@@ -9,5 +9,10 @@ Then build and run the client:
 
     docker-compose build client
     docker-compose up -d client
+
+Optionally populate data by running the following commands:
+
+    docker-compose build data-setup
+    docker-compose up data-setup
     
-Access the local platform via `http://localhost:3000`
+Access the local platform via `http://localhost:3000`.
