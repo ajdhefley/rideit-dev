@@ -4,6 +4,15 @@
 [submodule "rideit-api"]
 	path = rideit-api
 	url = https://github.com/ajdhefley/rideit-api
-[submodule "rideit-services"]
-	path = rideit-services
-	url = https://github.com/ajdhefley/rideit-services
+[submodule "rideit-service-coaster"]
+	path = rideit-service-coaster
+	url = https://github.com/ajdhefley/rideit-service-coaster
+[submodule "rideit-service-comment"]
+	path = rideit-service-comment
+	url = https://github.com/ajdhefley/rideit-service-comment
+[submodule "rideit-service-review"]
+	path = rideit-service-review
+	url = https://github.com/ajdhefley/rideit-service-review
+[submodule "rideit-service-user"]
+	path = rideit-service-user
+	url = https://github.com/ajdhefley/rideit-service-user
