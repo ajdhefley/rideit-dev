@@ -56,6 +56,7 @@ create table coasters
         primary key,
     name               varchar(100) default NULL::character varying,
     park               varchar(100) default NULL::character varying,
+    location           varchar(200) default NULL::character varying,
     type               varchar(5)   default NULL::character varying,
     model              varchar(100) default NULL::character varying,
     manufacturer       varchar(100) default NULL::character varying,
