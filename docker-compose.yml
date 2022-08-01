@@ -73,7 +73,7 @@ services:
       context: ./rideit-api
       dockerfile: Dockerfile
     volumes:
-      - './api:/usr/src/app/api'
+      - './rideit-api:/usr/src/app/api'
     ports:
       - 4040:4040
     environment:
@@ -104,7 +104,7 @@ services:
       context: ./rideit-client
       dockerfile: Dockerfile
     volumes:
-      - './client:/usr/src/app/client'
+      - './rideit-client:/usr/src/app/client'
     ports:
       - 3000:3000
     depends_on:
@@ -119,5 +119,5 @@ services:
       - api
 
 volumes:
-  api:
-  client:
+  rideit-api:
+  rideit-client:
