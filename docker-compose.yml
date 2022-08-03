@@ -68,12 +68,21 @@ services:
     depends_on:
       - db
 
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+
   api:
     build:
       context: ./rideit-api
       dockerfile: Dockerfile
     volumes:
-      - './rideit-api:/usr/src/app/api'
+      - './api:/usr/src/app/api'
+    container_name: api
     ports:
       - 4040:4040
     environment:
@@ -81,34 +90,35 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=coasterranker
-      - HOST=0.0.0.0
+      - HOST=api
       - PORT=4040
       - SERVICE_COASTER_URI=http://host.docker.internal:8080
       - SERVICE_COMMENT_URI=http://host.docker.internal:8081
       - SERVICE_REVIEW_URI=http://host.docker.internal:8082
       - SERVICE_USER_URI=http://host.docker.internal:8083
-      - JWT_EXPIRATION_MINUTES=1440
+      - JWT_EXPIRATION_MINUTES=5
       - JWT_SECRET=x
-      - CLIENT_URI=http://host.docker.internal:3000
-      - GOOGLE_OAUTH_REDIRECT_URI=http://host.docker.internal:3000/signin/redirect
-      - GOOGLE_CLIENT_ID=x
-      - GOOGLE_SECRET=x
+      - GOOGLE_OAUTH_REDIRECT_URI=http://localhost:3000/signin/redirect
+      - GOOGLE_CLIENT_ID=768911286952-61g6ij1l4v0qpaahgll8goa32fd7k0ck.apps.googleusercontent.com
+      - GOOGLE_SECRET=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
     depends_on:
       - service-coaster
       - service-comment
       - service-review
       - service-user
+      - nginx
 
   client:
     build:
       context: ./rideit-client
       dockerfile: Dockerfile
     volumes:
-      - './rideit-client:/usr/src/app/client'
+      - './client:/usr/src/app/client'
+    container_name: client
     ports:
       - 3000:3000
     depends_on:
-      - api
+      - nginx
 
   data-setup:
     build:
@@ -117,7 +127,3 @@ services:
     restart: "no"
     depends_on:
       - api
-
-volumes:
-  rideit-api:
-  rideit-client:
