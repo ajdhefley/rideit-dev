@@ -1,6 +1,6 @@
 # Getting started
 
-The API needs to be running when the client builds. Start the API and its dependent services first:
+The API needs to be running when the client builds. Start the API and related containers first:
 
     docker-compose build api
     docker-compose up -d api

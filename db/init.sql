@@ -85,6 +85,8 @@ create table coasterimages
         primary key,
     coasterid      integer      not null,
     imageurl       varchar(200) not null,
+    width          integer,
+    height         integer,
     base64         text
 );
 
