@@ -73,7 +73,8 @@ create table coasters
     carspertrain       integer,
     rowspercar         integer,
     insideseatsperrow  integer,
-    outsideseatsperrow integer
+    outsideseatsperrow integer,
+    rank               integer
 );
 
 alter table coasters
@@ -87,7 +88,8 @@ create table coasterimages
     imageurl       varchar(200) not null,
     width          integer,
     height         integer,
-    base64         text
+    base64         text,
+    verified boolean NOT NULL DEFAULT false
 );
 
 alter table coasterimages
