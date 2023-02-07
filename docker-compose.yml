@@ -106,7 +106,6 @@ services:
       - service-comment
       - service-review
       - service-user
-      - nginx
 
   client:
     build:
