@@ -117,3 +117,5 @@ create table oauthusers
 alter table oauthusers
     owner to postgres;
 
+create sequence hibernate_sequence start 1;
+
