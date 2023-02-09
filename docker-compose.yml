@@ -106,6 +106,7 @@ services:
       - service-comment
       - service-review
       - service-user
+      - nginx
 
   client:
     build:
@@ -116,8 +117,11 @@ services:
     container_name: client
     ports:
       - 3000:3000
+    environment:
+      - NEXT_PUBLIC_API_URL=http://0.0.0.0:5000/api
+      - NEXT_SERVER_API_URL=http://host.docker.internal:5000/api
     depends_on:
-      - nginx
+      - api
 
   data-setup:
     build:
