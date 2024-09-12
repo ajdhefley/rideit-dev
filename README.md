@@ -1,4 +1,14 @@
-# Getting started
+# Getting Started
+
+To clone this repository along with its submodules, run the following command:
+    
+    git clone --recurse-submodules https://github.com/ajdhefley/rideit-dev
+
+If you have already cloned the repository but did not include the submodules, you can initialize and/or update them with:
+    
+    git submodule update --init --recursive
+
+# Project Details
 
 The API needs to be running when the client builds. Start the API and related containers first:
 
